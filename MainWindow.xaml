@@ -19,8 +19,7 @@
                      Margin="15"
                      BorderThickness="0"
                      Text=""
-                     Background="WhiteSmoke">
-            </TextBox>
+                     Background="WhiteSmoke"/>
             <TextBox x:Name="txtResult"
                      FontSize="36" 
                      HorizontalContentAlignment="Right"
@@ -29,8 +28,7 @@
                      BorderThickness="0"
                      Margin="15"
                      Text="0"
-                     Background="WhiteSmoke">
-            </TextBox>
+                     Background="WhiteSmoke"/>
         </Grid>
         <!-- 메모리 -->
         <Grid DockPanel.Dock="Top"
@@ -126,25 +124,29 @@
                     Margin="3,1,0,1"
                     FontSize="18"
                     BorderThickness="0"
-                    Content="CE"/>
+                    Content="CE"
+                    Click="btnClear"/>
             <Button x:Name="btnC" Grid.Row="1"
                     Grid.Column="1"
                     Margin="2,1,1,1"
                     FontSize="18"
                     BorderThickness="0"
-                    Content="C"/>
+                    Content="C"
+                    Click="btnClear"/>
             <Button x:Name="btnDelete" Grid.Row="1"
                     Grid.Column="2"
                     Margin="2,1,1,1"
                     FontSize="18"
                     BorderThickness="0"
-                    Content="←"/>
+                    Content="←"
+                    Click="btnClear"/>
             <Button x:Name="btnDivide" Grid.Row="1"
                     Grid.Column="3"
                     Margin="2,1,1,1"
                     FontSize="18"
                     BorderThickness="0"
-                    Content="÷"/>
+                    Content="÷"
+                    Click="OpClick"/>
             <!-- 셋째줄 -->
             <Button Grid.Row="2"
                     Grid.Column="0"
@@ -207,7 +209,8 @@
                     Margin="2,1,1,1"
                     FontSize="18"
                     BorderThickness="0"
-                    Content="×"/>
+                    Content="×"
+                    Click="OpClick"/>
             <!-- 넷째줄 -->
             <Button x:Name="btn4" Grid.Row="3"
                     Grid.Column="0"
@@ -241,7 +244,8 @@
                     Margin="2,1,1,1"
                     FontSize="18"
                     BorderThickness="0"
-                    Content="－"/>
+                    Content="－"
+                    Click="OpClick"/>
             <!-- 다섯째줄 -->
             <Button x:Name="btn1" Grid.Row="4"
                     Grid.Column="0"
@@ -299,13 +303,15 @@
                     FontSize="18"
                     BorderThickness="0"
                     Content="."
-                    FontWeight="Bold"/>
+                    FontWeight="Bold" 
+                    Click="btnClick"/>
             <Button x:Name="btnResult" Grid.Row="5"
                     Grid.Column="3"
                     Margin="2,1,1,1"
                     FontSize="18"
                     BorderThickness="0"
-                    Content="="/>
+                    Content="="
+                    Click="btnEqual"/>
         </Grid>
     </DockPanel>
 </Window>
