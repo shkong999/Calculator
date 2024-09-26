@@ -99,25 +99,29 @@
                     FontSize="18"
                     BorderThickness="0"
                     Content="%"
-                    x:Name="btnPercent"/>
+                    x:Name="btnPercent" 
+                    Click="percentClick"/>
             <Button x:Name="btnRoute" Grid.Row="0"
                     Grid.Column="1"
                     Margin="2,1,1,1"
                     FontSize="18"
                     BorderThickness="0"
-                    Content="√"/>
+                    Content="√"
+                    Click="routeClick"/>
             <Button x:Name="btnSquare" Grid.Row="0"
                     Grid.Column="2"
                     Margin="2,1,1,1"
                     FontSize="18"
                     BorderThickness="0"
-                    Content="x²"/>
+                    Content="x²"
+                    Click="squareClick"/>
             <Button x:Name="btnFraction" Grid.Row="0"
                     Grid.Column="3"
                     Margin="2,1,1,1"
                     FontSize="18"
                     BorderThickness="0"
-                    Content="1/x"/>
+                    Content="1/x"
+                    Click="fractionClick"/>
             <!-- 둘째줄 -->
             <Button x:Name="btnCe" Grid.Row="1"
                     Grid.Column="0"
@@ -287,7 +291,8 @@
                     Margin="2,1,1,1"
                     FontSize="18"
                     BorderThickness="0"
-                    Content="±"/>
+                    Content="±"
+                    Click="changeSign"/>
             <Button x:Name="btn0" Grid.Row="5"
                     Grid.Column="1"
                     Margin="2,1,1,1"
