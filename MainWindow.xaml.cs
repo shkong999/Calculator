@@ -22,7 +22,10 @@ namespace Calculator
     {
         // true : 연산자 버튼 클릭함 false : 클릭안함
         private bool OpFlag;
-        private double saveVaule;
+        // 처음 입력한 숫자 저장
+        private double var1;
+        // 연산자 이후 입력 숫자 저장
+        private double var2;
         private object op;
 
         public MainWindow()
@@ -41,7 +44,6 @@ namespace Calculator
                 dotNum = beforeNum.Split(".");
                 beforeNum = dotNum[0].ToString();
                 afterNum = String.Format("{0:#,##0}", Double.Parse(beforeNum));
-                //afterNum = beforeNum.ToString("N");
                 afterNum = afterNum + "." + dotNum[1].ToString();
             }
             else
@@ -91,48 +93,47 @@ namespace Calculator
         private void OpClick(object sender, RoutedEventArgs e)
         {
             OpFlag = true;
-            saveVaule = double.Parse(txtResult.Text);
+            var1 = double.Parse(txtResult.Text);
 
             Button btn = (Button)sender;
             op = btn.Content.ToString();
 
-            txtExp.Text = NumberFormat(saveVaule.ToString()) + " " + op;
+            txtExp.Text = NumberFormat(var1.ToString()) + " " + op;
         }
 
         // 결과값(=) 클릭
         private void btnEqual(object sender, RoutedEventArgs e)
         {
-            double var1 = double.Parse(txtResult.Text);
-
-            // 결과값 출력 후 또 같은 버튼을 누를경우
-            // op 값 확인, 식 빈값으로 안돌아가는거 확인해야
+            // 결과값 출력 후 또 같은 버튼을 누를경우 값 세팅
             if (txtExp.Text.Contains("="))
             {
-                /*txtExp.Text = saveVaule.ToString() + "op" + var1.ToString();*/
-
-/*                txtResult.Text += saveVaule;
-                txtExp.Text = "";
-                txtExp.Text = var1.ToString() + op + saveVaule.ToString();*/
+                var1 = double.Parse(txtResult.Text);
+                txtExp.Text = NumberFormat(var1.ToString()) + " " + op;
             }
-
+            else
+            {
+                var2 = double.Parse(txtResult.Text);
+            }
+           
             switch (op)
             {
                 case "+":
-                    txtResult.Text = (saveVaule + var1).ToString();
+                    txtResult.Text = (var1 + var2).ToString();
                     break;
                 case "－":
-                    txtResult.Text = (saveVaule - var1).ToString();
+                    txtResult.Text = (var1 - var2).ToString();
                     break;
                 case "×":
-                    txtResult.Text = (saveVaule * var1).ToString();
+                    txtResult.Text = (var1 * var2).ToString();
                     break;
                 case "÷":
                     if (var1 > 0)
                     {
-                        txtResult.Text = (saveVaule / var1).ToString();
+                        txtResult.Text = (var1 / var2).ToString();
                     }
                     else
                     {
+                        // 연산자, 소수점 클릭 불가처리 해야함
                         txtResult.Text = "0으로 나눌 수 없습니다";
                         txtResult.FontSize = 25;
                         OpFlag = true;
@@ -141,7 +142,7 @@ namespace Calculator
                     break;
             }
             txtResult.Text = NumberFormat(txtResult.Text.ToString());
-            txtExp.Text += " " + NumberFormat(var1.ToString()) + " =";
+            txtExp.Text += " " + NumberFormat(var2.ToString()) + " =";
             OpFlag = true;
         }
 
@@ -151,20 +152,24 @@ namespace Calculator
             Button btn = sender as Button;
             object clear = btn.Content.ToString();
 
-            if(OpFlag)
-            {
-                if(!clear.Equals("←"))
-                {
-                    txtResult.Text = "0";
-                    return;
-                }
-            }
             switch (clear)
             {
                 case "←":
                     if (txtResult.Text.Length == 1 || txtResult.Text == "0")
                     {
                         txtResult.Text = "0";
+                    }
+                    // 연산자 클릭 또는 결과식 완료 후
+                    else if (OpFlag)
+                    {
+                        if (op == null)
+                        {
+                            txtExp.Text = "";
+                        }
+                        else
+                        {
+                            return;
+                        }
                     }
                     else
                     {
@@ -176,6 +181,10 @@ namespace Calculator
                     txtExp.Text = "";
                     break;
                 case "CE":
+                    if(OpFlag)
+                    {
+                        txtExp.Text = "";
+                    }
                     txtResult.Text = "0";
                     break;
             }
@@ -190,7 +199,7 @@ namespace Calculator
             // 기록이 있을 경우 negate 붙여야함
         }
 
-        // 제곱
+        // 제곱 계산
         private void squareClick(object sender, RoutedEventArgs e)
         {
             double square = Math.Pow(double.Parse(txtResult.Text),2);
@@ -199,7 +208,7 @@ namespace Calculator
             OpFlag = true;
         }
 
-        // 루트
+        // 루트 계산
         private void routeClick(object sender, RoutedEventArgs e)
         {
             double route = Math.Sqrt(double.Parse(txtResult.Text));
@@ -208,6 +217,7 @@ namespace Calculator
             OpFlag = true;
         }
 
+        // 분수 계산
         private void fractionClick(object sender, RoutedEventArgs e)
         {
             txtExp.Text = "1/(" + txtResult.Text + ")";
@@ -215,10 +225,11 @@ namespace Calculator
             OpFlag = true;
         }
 
+        // 퍼센트 계산
         private void percentClick(object sender, RoutedEventArgs e)
         {
            double percent;
-           if(!saveVaule.Equals(""))
+           if(!var1.Equals(""))
             {
                 percent = double.Parse(txtResult.Text) / 100;
                 txtResult.Text = NumberFormat(percent.ToString());
